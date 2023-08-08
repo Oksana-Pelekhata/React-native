@@ -38,18 +38,16 @@ const styles = StyleSheet.create({
     container: {
         width: "100%",
         flex: 1,
-        // alignItems: "center",
         justifyContent: "center",
     },
     background: {
-         width: "100%",
+        width: "100%",
         position: "absolute",
     },
     formContainer: {
         backgroundColor: "#fff",
         borderTopLeftRadius: "25",
         borderTopRightRadius: "25",
-
         marginTop: "auto",
         paddingHorizontal: 16,
         paddingTop: 92,
@@ -92,7 +90,6 @@ const styles = StyleSheet.create({
         textAlign: "center",
         color: "#1B4371",
     },
-
     loginLink: {
         textAlign: "center",
         textDecorationLine: "underline",

@@ -6,14 +6,14 @@ const ProfilePhoto = () => {
     return (
     <View style={styles.profilePhotoCont}>
         <View style={styles.profilePhoto}>
-             <Ionicons
+            <Ionicons
                 name="add-circle-outline"
                 size={25}
                 color="#FF6C00"
                 style={styles.addProfilePhoto}
-                  />
+                />
         </View>
-            </View>
+    </View>
     )
 }
 
