@@ -9,7 +9,6 @@ const RegistrationScreen = () => {
     const [login, setLogin] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [showPassword, setShowPassword] = useState(false);
     const [loginInputActive, setLoginInputActive] = useState(false);
     const [emailInputActive, setEmailInputActive] = useState(false);
     const [passwordInputActive, setPasswordInputActive] = useState(false);
@@ -155,7 +154,6 @@ const styles = StyleSheet.create({
         backgroundColor: "#F6F6F6",
         borderColor: "#FF6C00",
     },
-
     button: {
         marginBottom: 16,
         paddingVertical: 16,
