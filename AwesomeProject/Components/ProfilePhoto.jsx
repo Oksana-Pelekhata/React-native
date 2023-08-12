@@ -20,7 +20,7 @@ const ProfilePhoto = () => {
 const styles = StyleSheet.create({
         profilePhotoCont: {
         position: "absolute",
-        top: "30%",
+        top: "-15%",
         left: "35%",
         width: 132,
         height: 120,
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     addProfilePhoto: {
         position: "absolute",
         bottom: 10,
-        right: -20,
+        right: -16,
  },
 })
 export default ProfilePhoto

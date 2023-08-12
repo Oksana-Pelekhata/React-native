@@ -1,23 +1,52 @@
-import React from 'react'
-import { StyleSheet, TouchableOpacity, Image, SafeAreaView, TextInput, Text,  View } from 'react-native'
+import React, { useState } from 'react'
+import Toast from 'react-native-toast-message';
+import { StyleSheet, TouchableOpacity, Image, SafeAreaView, TextInput, Text,  View, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Platform } from 'react-native'
 import BackgroundImage from '../Images/BG.jpg'
 
 const LoginScreen = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const onLogin = () => {
+    if (email === '' || password === '') {
+      Toast.show({
+        type: 'error',
+        text: 'Усі поля повинні бути заповнені'
+      })
+      return
+    }
+    console.log('email', email);
+    console.log('password', password);
+  }
+
   return (
-    <SafeAreaView style={styles.container}>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      
+      <SafeAreaView style={styles.container}>
+       
       <Image source={BackgroundImage} style={styles.background} />
-      <View style={styles.formContainer}>
+   
+        <View style={styles.formContainer}>
+           <KeyboardAvoidingView  behavior={Platform.OS == "ios" ? "padding" : "height"}>
         <Text style={styles.pageTitle}>Увійти</Text>
-        <View style={styles.inputContainer}>
+        
+          <View style={styles.inputContainer}>
+            
+            
            <TextInput style={styles.input}
-                    placeholder="Адреса електронної пошти"
+                placeholder="Адреса електронної пошти"
+                value={email}
+                onChangeText={setEmail}
                 />
                 <TextInput style={styles.input}
-                    placeholder="Пароль"
-                />
+                placeholder="Пароль"
+                value={password}
+                onChangeText={setPassword}
+              />
+             
          </View>
       
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={onLogin}>
             <Text style={styles.buttonText}>Увійти</Text>
         </TouchableOpacity>
         <TouchableOpacity>
@@ -25,9 +54,14 @@ const LoginScreen = () => {
                     <Text> </Text>
                 <Text style={styles.loginLink}>Зареєструватися</Text>
             </Text>
-        </TouchableOpacity>
-        </View>
-    </SafeAreaView>
+          </TouchableOpacity>
+          </KeyboardAvoidingView> 
+            </View>
+         
+      
+      </SafeAreaView>
+       
+        </TouchableWithoutFeedback>
   )
 }
 const styles = StyleSheet.create({
