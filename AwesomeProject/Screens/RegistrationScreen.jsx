@@ -3,6 +3,7 @@ import Toast from 'react-native-toast-message';
 import { StyleSheet, TouchableOpacity, Image, SafeAreaView, TextInput, Text,  View, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView } from 'react-native';
 import BackgroundImage from '../Images/BG.jpg'
 import ProfilePhoto from '../Components/ProfilePhoto';
+import { useNavigation } from '@react-navigation/core';
 
 const RegistrationScreen = () => {
 
@@ -12,6 +13,7 @@ const RegistrationScreen = () => {
     const [loginInputActive, setLoginInputActive] = useState(false);
     const [emailInputActive, setEmailInputActive] = useState(false);
     const [passwordInputActive, setPasswordInputActive] = useState(false);
+    const navigation = useNavigation();
 
     const onRegister = () => {
         if (email === '' || password === '' || login === '') {
@@ -94,7 +96,8 @@ const RegistrationScreen = () => {
                 <TouchableOpacity>
                     <Text style={styles.loginText}>Вже є акаунт?
                         <Text> </Text>
-                        <Text style={styles.loginLink}>Увійти</Text>
+                        <Text style={styles.loginLink}
+                            onPress={()=>navigation.navigate('Login')}>Увійти</Text>
                     </Text>
                 </TouchableOpacity>
             </View>

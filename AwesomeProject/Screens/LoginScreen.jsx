@@ -2,12 +2,14 @@ import React, { useState } from 'react'
 import Toast from 'react-native-toast-message';
 import { StyleSheet, TouchableOpacity, Image, SafeAreaView, TextInput, Text,  View, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Platform } from 'react-native'
 import BackgroundImage from '../Images/BG.jpg'
+import { useNavigation } from '@react-navigation/core';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailInputActive, setEmailInputActive] = useState(false);
-    const [passwordInputActive, setPasswordInputActive] = useState(false);
+  const [passwordInputActive, setPasswordInputActive] = useState(false);
+  const navigation = useNavigation();
 
   const onLogin = () => {
     if (email === '' || password === '') {
@@ -19,6 +21,9 @@ const LoginScreen = () => {
     }
     console.log('email', email);
     console.log('password', password);
+    setEmail('');
+    setPassword('');
+    
   }
 
   const handleEmailFocus = () => {
@@ -44,7 +49,7 @@ const LoginScreen = () => {
        
       <Image source={BackgroundImage} style={styles.background} />
     <KeyboardAvoidingView style={styles.container}  behavior={Platform.OS == "ios" ? "padding" : "height"}
-            keyboardVerticalOffset={-200}>
+            keyboardVerticalOffset={-100}>
         <View style={styles.formContainer}>
         <Text style={styles.pageTitle}>Увійти</Text>
           <View style={styles.inputContainer}>
@@ -71,7 +76,8 @@ const LoginScreen = () => {
         <TouchableOpacity>
                 <Text style={styles.loginText}>Немає акаунту?
                     <Text> </Text>
-                <Text style={styles.loginLink}>Зареєструватися</Text>
+                <Text style={styles.loginLink}
+                  onPress={()=> navigation.navigate('Registration')}>Зареєструватися</Text>
             </Text>
           </TouchableOpacity>
         </View>
