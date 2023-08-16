@@ -2,20 +2,23 @@ import React from 'react'
 import Ionicons from "react-native-vector-icons/Ionicons";
 import User from '../Components/User';
 import { StyleSheet,SafeAreaView,  View, Text, TouchableOpacity } from 'react-native';
+import PostsList from '../Components/PostsList';
 
 const PostsScreen = () => {
+  const array = []
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>Публікації</Text>
+      <View style={styles.headerContainer}>
+        <Text style={styles.title}>Публікації</Text>
         <View>
-          <TouchableOpacity style={styles.logOutBtn}>
+          <TouchableOpacity style={styles.logoutBtn}>
             <Ionicons name="log-out-outline" size={24} />
           </TouchableOpacity>
         </View>
       </View>
-      <View style={styles.content}>
+      <View style={styles.main}>
         <User />
+        <PostsList array = {array} />
       </View>
     </SafeAreaView>
   )
@@ -27,7 +30,7 @@ const styles = StyleSheet.create({
     paddingBottom: 100,
     backgroundColor: "#FFF",
   },
-  header: {
+  headerContainer: {
     paddingTop: 55,
     paddingBottom: 11,
 
@@ -35,13 +38,12 @@ const styles = StyleSheet.create({
     borderBottomColor: "rgba(0, 0, 0, 0.3)",
     backgroundColor: "#FFF",
   },
-
-  logOutBtn: {
+  logoutBtn: {
     position: "absolute",
     bottom: 0,
     right: 20,
   },
-  headerText: {
+  title: {
     textAlign: "center",
     fontFamily: "Medium",
     fontSize: 17,
@@ -49,10 +51,10 @@ const styles = StyleSheet.create({
     letterSpacing: -0.408,
     color: "#212121",
   },
-  content: {
+  main: {
     flex: 1,
-    backgroundColor: "#FFF",
     paddingHorizontal: 16,
+    backgroundColor: "#FFF",
   },
 });
 

@@ -11,6 +11,7 @@ import Home from './Screens/Home'
 import CreatePostsScreen from './Screens/CreatePostsScreen';
 import User from './Components/User';
 import PostsScreen from './Screens/PostsScreen';
+import CommentsScreen from './Screens/CommentsScreen';
 
 const MainStack = createStackNavigator();
 
@@ -28,11 +29,13 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <MainStack.Navigator initialRouteName="Login">
-        {/* <MainStack.Screen name="Registration" component={RegistrationScreen} />
+      <MainStack.Navigator initialRouteName="CommentsScreen">
+        <MainStack.Screen name="Registration" component={RegistrationScreen} />
         <MainStack.Screen name="Login" component={LoginScreen} />
-        <MainStack.Screen name="Home" component={Home} /> */}
-         <MainStack.Screen name="PostsScreen" component={PostsScreen} />
+        <MainStack.Screen name="Home" component={Home} />
+        <MainStack.Screen name="PostsScreen" component={PostsScreen} />
+        <MainStack.Screen name="CommentsScreen" component={CommentsScreen} />
+        <MainStack.Screen name="CreatePostsScreen" component={CreatePostsScreen} />
       </MainStack.Navigator>
     </NavigationContainer>
     // <View style={styles.container}>

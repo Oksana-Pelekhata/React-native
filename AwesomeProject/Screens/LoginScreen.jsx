@@ -23,7 +23,7 @@ const LoginScreen = () => {
     console.log('password', password);
     setEmail('');
     setPassword('');
-    
+    navigation.navigate('Home');
   }
 
   const handleEmailFocus = () => {
