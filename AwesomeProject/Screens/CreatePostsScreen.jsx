@@ -1,13 +1,15 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useState } from 'react'
-import { StyleSheet, Text, Keyboard, TouchableWithoutFeedback, View, TouchableOpacity, TextInput } from 'react-native'
+import { StyleSheet, Text, Keyboard, TouchableWithoutFeedback, View, TouchableOpacity, TextInput, Image } from 'react-native'
 import Ionicons from "react-native-vector-icons/Ionicons";
+import CameraView from '../Components/CameraView';
 
 
 const CreatePostsScreen = () => {
   const navigation = useNavigation();
   const [title, setTitle] = useState('');
   const [location, setLocation] = useState('');
+  const [photoUri, setPhotoUri] = useState("");
 
   const handleSubmit = () => {
    navigation.navigate("PostsScreen")
@@ -15,9 +17,14 @@ const CreatePostsScreen = () => {
 
   const deletePost = () => {
     setTitle('');
-    setLocation ('');
+    setLocation('');
+    setPhotoUri(null)
   }
   
+  const takePhoto = async (uri) => {
+    setPhotoUri(uri);
+  };
+
   let submitButtonCheck;
 
   if (title !== "") { submitButtonCheck = title }
@@ -40,10 +47,17 @@ const CreatePostsScreen = () => {
              
             
           <View style={styles.postPhotoContainer}>
-            <View style={styles.postPhoto}>
-               <TouchableOpacity style={styles.cameraIconCont}>
-                 <Ionicons name="camera" size={24} color="#BDBDBD" style={styles.cameraIcon } />
-                </TouchableOpacity>
+             <View style={styles.postPhoto}>
+               {photoUri ? (
+                <>
+                   <Image style={styles.camera} source={{ uri: photoUri }} />
+                   <TouchableOpacity style={styles.cameraIconCont}>
+                     <Ionicons name="camera" size={24} style={styles.cameraIcon } color="#fff" />
+                   </TouchableOpacity>
+                </>
+              ) : (
+                <CameraView onPhotoTaken={takePhoto}/>
+              )}
             </View>
             <TouchableOpacity >
               <Text style={styles.postPhotoText}>Завантажте фото</Text>
@@ -171,7 +185,7 @@ const styles = StyleSheet.create({
     transform: [{ translateX: -0.5 * 24 }, { translateY: -0.5 * 24 }],
   },
   cameraIconCont: {
-    backgroundColor: "#fff",
+    backgroundColor: "rgba(0, 0, 0, 0.1)",
     width: 60,
     height: 60,
     borderRadius: 50,
