@@ -4,7 +4,7 @@ import { Image, ScrollView, Text, TouchableOpacity, View, StyleSheet } from 'rea
 
 
 
-const PostsList = ({array}) => {
+const ProfileList = ({array}) => {
  return (
     array.length > 0 && (
       <ScrollView>
@@ -14,18 +14,28 @@ const PostsList = ({array}) => {
               <Image style={styles.photo} source={{ uri: data.photo }} />
               <Text style={styles.postTitle}>{data.title}</Text>
               <View style={styles.post}>
+                <View style={styles.postfeedbackCont}>
                   <View>
                     <TouchableOpacity style={styles.postComments}>
                       <Ionicons name="chatbubble" size={24} color="#FF6C00"/>
                         <Text>{data.comments.length}</Text>
                     </TouchableOpacity>
                   </View>
+                  <View>
+                    <TouchableOpacity style={styles.postComments}>
+                      <Ionicons name="heart-outline" size={24} color="#FF6C00"/>
+                      <Text>{data.likes.length}</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+                    
                       <View>
                            <TouchableOpacity style={styles.postLocationInfo}>
                             <Ionicons name="location-outline" size={24} color="#BDBDBD" />
                             <Text style={styles.location}>{data.location}</Text>
                             </TouchableOpacity>
                       </View>
+               
               </View>
             </View>
           );
@@ -36,7 +46,7 @@ const PostsList = ({array}) => {
 }
 const styles = StyleSheet.create({
   postContainer: {
-    marginBottom: 32,
+    marginBottom: 34,
   },
   photo: {
     width: "100%",
@@ -58,6 +68,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginTop: 11,
   },
+  postfeedbackCont: {
+     display: "flex",
+    flexDirection: "row",
+    gap: 24,
+  },
   postComments: {
     display: "flex",
     flexDirection: "row",
@@ -77,4 +92,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PostsList
+export default ProfileList

@@ -5,8 +5,7 @@ import { View, Image, StyleSheet, Text } from 'react-native'
 const User = () => {
   return (
       <View style={styles.container}>
-          {/* <Image style={styles.avatar} source={avatar}></Image> */}
-          <View style={styles.avatar}></View>
+          <View style={styles.userPhoto}></View>
           <View style={styles.userInfo}>
               <View>
                   <Text style={styles.name}>Ім'я</Text>
@@ -25,7 +24,7 @@ styles = StyleSheet.create({
     flexDirection: "row",
     paddingVertical: 32,
     },
-    avatar: {
+    userPhoto: {
         width: 60,
         height: 60,
         marginRight: 8,

@@ -8,7 +8,7 @@ const ProfilePhoto = () => {
         <View style={styles.profilePhoto}>
             <Ionicons
                 name="add-circle-outline"
-                size={25}
+                size={24}
                 color="#FF6C00"
                 style={styles.addProfilePhoto}
                 />

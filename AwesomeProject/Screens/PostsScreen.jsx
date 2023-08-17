@@ -4,8 +4,27 @@ import User from '../Components/User';
 import { StyleSheet,SafeAreaView,  View, Text, TouchableOpacity } from 'react-native';
 import PostsList from '../Components/PostsList';
 
+
+  
 const PostsScreen = () => {
-  const array = []
+  const array = [{
+    id:1,
+    photo:'../Images/user.png',
+    title:'Forest',
+    location: 'lviv',
+    comments: [],
+    likes:[]
+  },
+    {
+    id:2,
+    photo:'../Images/user.png',
+    title:'Forest',
+    location: 'lviv',
+      comments: [],
+    likes:[]
+    }]
+  
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerContainer}>
