@@ -1,10 +1,12 @@
 import React from 'react'
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Image, ScrollView, Text, TouchableOpacity, View, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 
 
-const ProfileList = ({array}) => {
+const ProfileList = ({ array }) => {
+  const navigation = useNavigation();
  return (
     array.length > 0 && (
       <ScrollView>
@@ -16,7 +18,7 @@ const ProfileList = ({array}) => {
               <View style={styles.post}>
                 <View style={styles.postfeedbackCont}>
                   <View>
-                    <TouchableOpacity style={styles.postComments}>
+                    <TouchableOpacity style={styles.postComments} onPress={()=>navigation.navigate("CommentsScreen")}>
                       <Ionicons name="chatbubble" size={24} color="#FF6C00"/>
                         <Text>{data.comments.length}</Text>
                     </TouchableOpacity>
@@ -30,7 +32,7 @@ const ProfileList = ({array}) => {
                 </View>
                     
                       <View>
-                           <TouchableOpacity style={styles.postLocationInfo}>
+                           <TouchableOpacity style={styles.postLocationInfo} onPress={() => navigation.navigate("Map", data.location)}>
                             <Ionicons name="location-outline" size={24} color="#BDBDBD" />
                             <Text style={styles.location}>{data.location}</Text>
                             </TouchableOpacity>

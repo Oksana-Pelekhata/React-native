@@ -32,7 +32,7 @@ const ProfileScreen = () => {
           <Ionicons name="log-out-outline" size={28} color="#BDBDBD" />
           </TouchableOpacity>
           <ProfilePhoto />
-          <Text style={styles.userName}>{userName}</Text>
+          <Text style={styles.userName}></Text>
           <ProfileList array={array} />
         </View> 
       </SafeAreaView>

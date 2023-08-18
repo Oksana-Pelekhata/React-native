@@ -11,18 +11,20 @@ const PostsScreen = () => {
     id:1,
     photo:'../Images/user.png',
     title:'Forest',
-    location: 'lviv',
+    locationDescription: 'lviv',
     comments: [],
-    likes:[]
+    likes: [],
+    location: {coords: 
+{accuracy: 39, 
+altitude: 374.66754150390625, 
+altitudeAccuracy: 21.52643394470215, 
+heading: -1, 
+latitude: 49.8197213269016, 
+longitude: 24.06016023325153, 
+speed: -1},
+ timestamp: 1692354636169.4841}
   },
-    {
-    id:2,
-    photo:'../Images/user.png',
-    title:'Forest',
-    location: 'lviv',
-      comments: [],
-    likes:[]
-    }]
+    ]
   
 
   return (

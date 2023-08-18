@@ -1,35 +1,71 @@
 import { useNavigation } from '@react-navigation/native'
-import React, { useState } from 'react'
-import { StyleSheet, Text, Keyboard, TouchableWithoutFeedback, View, TouchableOpacity, TextInput, Image } from 'react-native'
+import React, { useState,  useEffect, useRef  } from 'react'
+import { StyleSheet, Text, Keyboard, Dimensions, TouchableWithoutFeedback, View, TouchableOpacity, TextInput, Image } from 'react-native'
 import Ionicons from "react-native-vector-icons/Ionicons";
-import CameraView from '../Components/CameraView';
+import MapView, { Marker } from "react-native-maps";
+import * as Location from "expo-location";
+import { Camera } from "expo-camera";
+import * as MediaLibrary from "expo-media-library";
 
 
 const CreatePostsScreen = () => {
   const navigation = useNavigation();
   const [title, setTitle] = useState('');
-  const [location, setLocation] = useState('');
+  const [location, setLocation] = useState(null);
+  const [locationDescription, setLocationDescription] = useState('')
   const [photoUri, setPhotoUri] = useState("");
+  const [hasPermission, setHasPermission] = useState(null);
+  const [cameraRef, setCameraRef] = useState(null);
+  const [type, setType] = useState(Camera.Constants.Type.back);
 
-  const handleSubmit = () => {
+  useEffect(() => {
+    (async () => {
+      const { status } = await Camera.requestPermissionsAsync();
+      await MediaLibrary.requestPermissionsAsync();
+
+      setHasPermission(status === "granted");
+    })();
+
+    (async () => {
+      let { status } = await Location.requestPermissionsAsync();
+      if (status !== "granted") {
+        console.log("Permission to access location was denied");
+      }
+
+      
+    })();
+  }, []);
+
+  if (hasPermission === null) {
+    return <View />;
+  }
+  if (hasPermission === false) {
+    return <Text>No access to camera</Text>;
+  }
+
+
+  const handleSubmit = async () => {
+    let location = await Location.getCurrentPositionAsync({});
+      const coords = {
+        latitude: location.coords.latitude,
+        longitude: location.coords.latitude,
+      };
+    setLocation(coords);
+    
    navigation.navigate("PostsScreen")
   }
 
   const deletePost = () => {
     setTitle('');
-    setLocation('');
+    setLocationDescription('');
     setPhotoUri(null)
   }
-  
-  const takePhoto = async (uri) => {
-    setPhotoUri(uri);
-  };
 
   let submitButtonCheck;
 
   if (title !== "") { submitButtonCheck = title }
-  else if(location !== "") {submitButtonCheck = title }
-
+  else if (locationDescription !== "") { submitButtonCheck = title }
+  
    return (
      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       
@@ -56,7 +92,42 @@ const CreatePostsScreen = () => {
                    </TouchableOpacity>
                 </>
               ) : (
-                <CameraView onPhotoTaken={takePhoto}/>
+                <View style={styles.cameraContainer}>
+      <Camera
+        style={styles.camera}
+        type={type}
+        ref={setCameraRef}
+      >
+        <View style={styles.photoView}>
+          <TouchableOpacity
+            style={styles.flipContainer}
+            onPress={() => {
+              setType(
+                type === Camera.Constants.Type.back
+                  ? Camera.Constants.Type.front
+                  : Camera.Constants.Type.back
+              );
+            }}
+          >
+           <Ionicons name="camera-reverse-outline" size={24} color="#FFFFFF" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={async () => {
+              if (cameraRef) {
+                const { uri } = await cameraRef.takePictureAsync();
+                await MediaLibrary.createAssetAsync(uri);
+                setPhotoUri(uri)
+              }
+            }}
+          >
+            <View style={styles.takePhotoOut}>
+              <View style={styles.takePhotoInner}></View>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </Camera>
+    </View>
               )}
             </View>
             <TouchableOpacity >
@@ -78,8 +149,8 @@ const CreatePostsScreen = () => {
                 style={styles.locationInput}
                 placeholder="Місцевість..."
                 placeholderTextColor="#BDBDBD"
-                value={location}
-                 onChangeText={setLocation}
+                value={locationDescription}
+                 onChangeText={setLocationDescription}
               />
               <Ionicons
                 name="location-outline"
@@ -274,6 +345,43 @@ const styles = StyleSheet.create({
     bottom: "50%",
     left: "50%",
     transform: [{ translateY: 0.5 * 24 }, { translateX: -0.5 * 24 }],
+  },
+  cameraContainer: { flex: 1 },
+  camera: { flex: 1 },
+  photoView: {
+    flex: 1,
+    backgroundColor: "transparent",
+    justifyContent: "flex-end",
+  },
+
+  flipContainer: {
+    flex: 1,
+    alignSelf: "flex-end",
+    marginTop: 5,
+    marginRight: 20
+  },
+
+  button: { alignSelf: "center" },
+
+  takePhotoOut: {
+    borderWidth: 2,
+    borderColor: "white",
+    height: 50,
+    width: 50,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 50,
+    marginBottom: 15,
+  },
+
+  takePhotoInner: {
+    borderWidth: 2,
+    borderColor: "white",
+    height: 40,
+    width: 40,
+    backgroundColor: "white",
+    borderRadius: 50,
   },
 });
 
