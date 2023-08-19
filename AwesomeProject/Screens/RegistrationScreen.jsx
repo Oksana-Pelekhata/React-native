@@ -4,6 +4,7 @@ import { StyleSheet, TouchableOpacity, Image, SafeAreaView, TextInput, Text,  Vi
 import BackgroundImage from '../Images/BG.jpg'
 import ProfilePhoto from '../Components/ProfilePhoto';
 import { useNavigation } from '@react-navigation/native';
+import { register } from '../redux/auth/authOperations';
 
 const RegistrationScreen = () => {
 
@@ -15,6 +16,7 @@ const RegistrationScreen = () => {
     const [passwordInputActive, setPasswordInputActive] = useState(false);
 
     const navigation = useNavigation();
+    const dispatch = useDispatch()
 
     const onRegister = () => {
         if (email === '' || password === '' || login === '') {
@@ -24,9 +26,7 @@ const RegistrationScreen = () => {
         })
     return
         }
-        console.log('login', login);
-        console.log('email', email);
-        console.log('password', password);
+        dispatch(register({ userName:login, password, email }))
         setLogin('');
         setEmail('');
         setPassword('');
