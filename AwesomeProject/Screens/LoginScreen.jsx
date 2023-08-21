@@ -3,6 +3,8 @@ import Toast from 'react-native-toast-message';
 import { StyleSheet, TouchableOpacity, Image, SafeAreaView, TextInput, Text,  View, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Platform } from 'react-native'
 import BackgroundImage from '../Images/BG.jpg'
 import { useNavigation } from '@react-navigation/core';
+import { useDispatch } from 'react-redux';
+import { logIn } from '../redux/auth/authOperations';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -10,6 +12,7 @@ const LoginScreen = () => {
   const [emailInputActive, setEmailInputActive] = useState(false);
   const [passwordInputActive, setPasswordInputActive] = useState(false);
   const navigation = useNavigation();
+  const dispatch = useDispatch()
 
   const onLogin = () => {
     if (email === '' || password === '') {
@@ -19,8 +22,7 @@ const LoginScreen = () => {
       })
       return
     }
-    console.log('email', email);
-    console.log('password', password);
+     dispatch(logIn({ email, password }))
     setEmail('');
     setPassword('');
     navigation.navigate('Home');

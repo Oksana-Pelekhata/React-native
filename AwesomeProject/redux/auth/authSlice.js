@@ -49,9 +49,9 @@ const authSlice = createSlice({
     name: 'auth',
     initialState,
     extraReducers: (builder) => {
-        builder.addCase(registerThunk.fulfilled, handleFulfilledRegister )
-            .addCase(loginThunk.fulfilled, handleFulfilledLogin)
-            .addCase(logoutThunk.fulfilled, handleFulfilledLogout)
+        builder.addCase(register.fulfilled, handleFulfilledRegister )
+            .addCase(logIn.fulfilled, handleFulfilledLogin)
+            .addCase(logOut.fulfilled, handleFulfilledLogout)
             .addMatcher(({ type }) => type.endsWith('/pending'), handlePending)
             .addMatcher(({type}) => type.endsWith('/rejected'), handleRejected)
     }

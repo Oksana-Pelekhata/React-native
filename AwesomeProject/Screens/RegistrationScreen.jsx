@@ -5,6 +5,7 @@ import BackgroundImage from '../Images/BG.jpg'
 import ProfilePhoto from '../Components/ProfilePhoto';
 import { useNavigation } from '@react-navigation/native';
 import { register } from '../redux/auth/authOperations';
+import { useDispatch } from 'react-redux';
 
 const RegistrationScreen = () => {
 
@@ -26,7 +27,7 @@ const RegistrationScreen = () => {
         })
     return
         }
-        dispatch(register({ userName:login, password, email }))
+        dispatch(register({ userName:login, email, password }))
         setLogin('');
         setEmail('');
         setPassword('');
