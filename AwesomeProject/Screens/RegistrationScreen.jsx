@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Toast from 'react-native-toast-message';
 import { StyleSheet, TouchableOpacity, Image, SafeAreaView, TextInput, Text,  View, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView } from 'react-native';
 import BackgroundImage from '../Images/BG.jpg'
 import ProfilePhoto from '../Components/ProfilePhoto';
 import { useNavigation } from '@react-navigation/native';
 import { register } from '../redux/auth/authOperations';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import {isLogined } from '../redux/auth/authSelectors';
 
 const RegistrationScreen = () => {
 
@@ -18,6 +19,16 @@ const RegistrationScreen = () => {
 
     const navigation = useNavigation();
     const dispatch = useDispatch()
+    const isLoggedIn = useSelector(isLogined);
+   
+      useEffect(() => {
+    if (isLoggedIn) {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "Home" }],
+      });
+    }
+  }, [isLoggedIn]);
 
     const onRegister = () => {
         if (email === '' || password === '' || login === '') {
@@ -27,12 +38,12 @@ const RegistrationScreen = () => {
         })
     return
         }
-        dispatch(register({ userName:login, email, password }))
+        dispatch(register({ displayName:login, email, password }))
         setLogin('');
         setEmail('');
         setPassword('');
 
-        navigation.navigate("Login")
+        // navigation.navigate("Login")
     }
             
     const handleLoginFocus = () => {

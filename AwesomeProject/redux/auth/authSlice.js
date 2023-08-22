@@ -11,16 +11,18 @@ const initialState = {
 };
 
 const handleFulfilledRegister = (state, { payload }) => {
-    state.username = payload.displayName;
-    state.email = payload.email;
+    state.username = payload.userName;
+    state.email = payload.userEmail;
     state.isLoggedIn = true;
     state.uid = payload.uid;
     state.isLoading = false;
 };
 
 const handleFulfilledLogin = (state, { payload }) => {
-    state.username = payload.displayName;
-    state.email = payload.email;
+    console.log('state', state)
+    console.log('payload', payload)
+    state.username = payload.userName;
+    state.email = payload.userEmail;
     state.uid = payload.uid;
     state.isLoggedIn = true;
     state.isLoading = false;
@@ -40,6 +42,7 @@ const handlePending = (state) => {
 }
 
 const handleRejected = (state, { error, payload }) => {
+    console.log('eror', error.message)
     state.isLoading = false;
     state.error = payload ?? error.message;
 }
@@ -58,3 +61,4 @@ const authSlice = createSlice({
 })
 
 export const authReducer = authSlice.reducer
+

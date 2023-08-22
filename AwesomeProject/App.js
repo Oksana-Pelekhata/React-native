@@ -16,6 +16,7 @@ import ProfileScreen from './Screens/ProfileScreen';
 import MapScreen from './Screens/MapScreen';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
+import { persistor, store } from './redux/store';
 
 const MainStack = createStackNavigator();
 
@@ -35,7 +36,7 @@ export default function App() {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
     <NavigationContainer>
-      <MainStack.Navigator initialRouteName="Registration">
+      <MainStack.Navigator initialRouteName="Login">
         <MainStack.Screen name="Registration" component={RegistrationScreen} />
         <MainStack.Screen name="Login" component={LoginScreen} />
         <MainStack.Screen name="Home" component={Home} />

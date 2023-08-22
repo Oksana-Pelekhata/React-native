@@ -1,18 +1,14 @@
 import { 
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
-    onAuthStateChanged,
     updateProfile
 } from 'firebase/auth';
-// import { getAuth } from 'firebase/auth';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import {auth} from '../../config'
-
-// const auth = getAuth();
-
+import { auth } from '../../config'
+import { signOut } from 'firebase/auth'
 
 export const register = createAsyncThunk(
-  "auth/signUp",
+  "auth/register",
   async ({ email, password, displayName }, { rejectWithValue }) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(
@@ -21,7 +17,33 @@ export const register = createAsyncThunk(
         password,
         displayName
       );
+      
+      const { user } = userCredential;
 
+      await updateProfile(user, {
+        displayName: displayName,
+      });
+
+      const {
+        displayName: userName,
+        email: userEmail,
+        accessToken,
+        uid,
+      } = user;
+
+      return { userEmail, accessToken, userName, uid };
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+
+export const logIn = createAsyncThunk(
+  'auth/login',
+  async ({ email, password }, thunkAPI) => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const { user } = userCredential;
 
       const {
@@ -31,41 +53,12 @@ export const register = createAsyncThunk(
         uid,
       } = user;
 
-      return { userEmail, accessToken, userName, photoUri, uid };
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
-  }
-);
 
-
-// export const register = createAsyncThunk(
-//   'auth/register',
-//   async ({userName, email, password }, thunkAPI) => {
-//     try {
-//         await createUserWithEmailAndPassword(auth, email, password);
-//         await updateProfile(auth.currentUser, { displayName: userName });
-
-//       return {
-//         displayName: auth.currentUser.displayName,
-//         email: auth.currentUser.email,
-//         uid: auth.currentUser.uid,
-//       };
-//     } catch (error) {
-//       return thunkAPI.rejectWithValue(error.message);
-//     }
-//   }
-// );
-
-export const logIn = createAsyncThunk(
-  'auth/login',
-  async ({ email, password }, thunkAPI) => {
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
       return {
-        displayName: auth.currentUser.displayName,
-        email: auth.currentUser.email,
-        uid: auth.currentUser.uid,
+        userName,
+        userEmail, 
+        accessToken,
+        uid
       };
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -74,9 +67,14 @@ export const logIn = createAsyncThunk(
 );
 
 export const logOut = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
+ 
   try {
-    await signOut(auth);
+
+    await signOut(auth); 
+    
   } catch (error) {
+
     return thunkAPI.rejectWithValue(error.message);
+
   }
 });

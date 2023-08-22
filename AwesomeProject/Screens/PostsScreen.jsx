@@ -1,12 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Ionicons from "react-native-vector-icons/Ionicons";
 import User from '../Components/User';
 import { StyleSheet,SafeAreaView,  View, Text, TouchableOpacity } from 'react-native';
 import PostsList from '../Components/PostsList';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logOut } from '../redux/auth/authOperations';
+import { useNavigation } from '@react-navigation/native';
+import { isLogined } from '../redux/auth/authSelectors';
 
-const dispatch = useDispatch();
+
+
+
+
   
 const PostsScreen = () => {
   const array = [{
@@ -26,15 +31,30 @@ longitude: 24.06016023325153,
 speed: -1},
  timestamp: 1692354636169.4841}
   },
-    ]
+  ]
   
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+
+  const isLoggedIn = useSelector(isLogined);
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "Login" }],
+      });
+    }
+  }, [isLoggedIn]);
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerContainer}>
         <Text style={styles.title}>Публікації</Text>
         <View>
-          <TouchableOpacity style={styles.logoutBtn} onPress={()=>dispatch(logOut())}>
+          <TouchableOpacity style={styles.logoutBtn}
+            onPress={()=>dispatch(logOut())}
+          >
             <Ionicons name="log-out-outline" size={24} />
           </TouchableOpacity>
         </View>

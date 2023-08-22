@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Toast from 'react-native-toast-message';
 import { StyleSheet, TouchableOpacity, Image, SafeAreaView, TextInput, Text,  View, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Platform } from 'react-native'
 import BackgroundImage from '../Images/BG.jpg'
 import { useNavigation } from '@react-navigation/core';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logIn } from '../redux/auth/authOperations';
+import { isLogined } from '../redux/auth/authSelectors';
+
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -13,20 +15,16 @@ const LoginScreen = () => {
   const [passwordInputActive, setPasswordInputActive] = useState(false);
   const navigation = useNavigation();
   const dispatch = useDispatch()
+  const isLoggedIn = useSelector(isLogined);
 
-  const onLogin = () => {
-    if (email === '' || password === '') {
-      Toast.show({
-        type: 'error',
-        text: 'Усі поля повинні бути заповнені'
-      })
-      return
+   useEffect(() => {
+    if (isLoggedIn) {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "Home" }],
+      });
     }
-     dispatch(logIn({ email, password }))
-    setEmail('');
-    setPassword('');
-    navigation.navigate('Home');
-  }
+  }, [isLoggedIn]);
 
   const handleEmailFocus = () => {
     setEmailInputActive(true);
@@ -42,6 +40,19 @@ const LoginScreen = () => {
 
   const handlePasswordBlur = () => {
     setPasswordInputActive(false);
+  }
+  const onLogin = () => {
+    if (email === '' || password === '') {
+      Toast.show({
+        type: 'error',
+        text: 'Усі поля повинні бути заповнені'
+      })
+      return
+    }
+    dispatch(logIn({ email, password }))
+    // setEmail('');
+    // setPassword('');
+    // navigation.navigate('Home');
   }
 
   return (
