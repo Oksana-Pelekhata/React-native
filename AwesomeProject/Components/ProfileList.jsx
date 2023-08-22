@@ -20,21 +20,25 @@ const ProfileList = ({ array }) => {
                   <View>
                     <TouchableOpacity style={styles.postComments} onPress={()=>navigation.navigate("CommentsScreen")}>
                       <Ionicons name="chatbubble" size={24} color="#FF6C00"/>
-                        <Text>{data.comments.length}</Text>
+                        <Text></Text>
                     </TouchableOpacity>
                   </View>
                   <View>
                     <TouchableOpacity style={styles.postComments}>
                       <Ionicons name="heart-outline" size={24} color="#FF6C00"/>
-                      <Text>{data.likes.length}</Text>
+                      <Text></Text>
                     </TouchableOpacity>
                   </View>
                 </View>
                     
                       <View>
-                           <TouchableOpacity style={styles.postLocationInfo} onPress={() => navigation.navigate("Map", data.location)}>
+                           <TouchableOpacity style={styles.postLocationInfo} onPress={() =>navigation.navigate("MapScreen",
+                    {
+                    latitude: data.location.coords.latitude,
+                    longitude: data.location.coords.longitude,
+                    })}>
                             <Ionicons name="location-outline" size={24} color="#BDBDBD" />
-                            <Text style={styles.location}>{data.location}</Text>
+                            <Text style={styles.location}>{data.locationDescription}</Text>
                             </TouchableOpacity>
                       </View>
                

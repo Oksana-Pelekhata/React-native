@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { getAllPosts } from "./postsOperations"
+import { getAllComments } from "./commentsOperations";
 
 const initialState = {
-    posts:[]
+    comments:[]
 }
 
 const handlePending = (state) => {
@@ -14,19 +14,19 @@ const handleRejected = (state, { error, payload }) => {
     state.error = payload ?? error.message;
 }
 
-const handleFulfilledGetAllPosts = (state, { payload }) => {
+const handleFulfilledGetAllComments = (state, { payload }) => {
     console.log('state', state)
-    state.posts = payload;
+    state.comments = payload;
 }
 
 const postsSlice = createSlice({
-    name: 'posts',
+    name: 'comments',
     initialState,
     extraReducers: (builder) => {
-        builder.addCase(getAllPosts.fulfilled, handleFulfilledGetAllPosts )
+        builder.addCase(getAllComments.fulfilled, handleFulfilledGetAllComments )
             .addMatcher(({ type }) => type.endsWith('/pending'), handlePending)
             .addMatcher(({type}) => type.endsWith('/rejected'), handleRejected)
     }
 })
 
-export const postsReducer = postsSlice.reducer
+export const CommentsReducer = commentsSlice.reducer

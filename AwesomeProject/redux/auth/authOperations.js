@@ -27,11 +27,10 @@ export const register = createAsyncThunk(
       const {
         displayName: userName,
         email: userEmail,
-        accessToken,
         uid,
       } = user;
 
-      return { userEmail, accessToken, userName, uid };
+      return { userEmail, userName, uid };
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -49,7 +48,6 @@ export const logIn = createAsyncThunk(
       const {
         displayName: userName,
         email: userEmail,
-        accessToken,
         uid,
       } = user;
 
@@ -57,7 +55,6 @@ export const logIn = createAsyncThunk(
       return {
         userName,
         userEmail, 
-        accessToken,
         uid
       };
     } catch (error) {

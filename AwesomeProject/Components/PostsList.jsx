@@ -20,7 +20,7 @@ const PostsList = ({ array }) => {
                   <View>
                     <TouchableOpacity style={styles.postComments} onPress={()=>navigation.navigate("CommentsScreen")}>
                       <Ionicons name="chatbubble" size={24} color="#FF6C00"/>
-                        <Text>{data.comments.length}</Text>
+                        <Text></Text>
                     </TouchableOpacity>
                   </View>
                       <View>

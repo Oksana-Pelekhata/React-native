@@ -6,37 +6,24 @@ import PostsList from '../Components/PostsList';
 import { useDispatch, useSelector } from 'react-redux';
 import { logOut } from '../redux/auth/authOperations';
 import { useNavigation } from '@react-navigation/native';
-import { isLogined } from '../redux/auth/authSelectors';
+import { email, isLogined, name } from '../redux/auth/authSelectors';
+import { getAllPosts } from '../redux/posts/postsOperations';
+import { userPosts } from '../redux/posts/postsSelectors';
 
-
-
-
-
-  
 const PostsScreen = () => {
-  const array = [{
-    id:1,
-    photo:'../Images/user.png',
-    title:'Forest',
-    locationDescription: 'lviv',
-    comments: [],
-    likes: [],
-    location: {coords: 
-{accuracy: 39, 
-altitude: 374.66754150390625, 
-altitudeAccuracy: 21.52643394470215, 
-heading: -1, 
-latitude: 49.8197213269016, 
-longitude: 24.06016023325153, 
-speed: -1},
- timestamp: 1692354636169.4841}
-  },
-  ]
-  
+
   const dispatch = useDispatch();
   const navigation = useNavigation();
-
   const isLoggedIn = useSelector(isLogined);
+  const postsList = useSelector(userPosts);
+  const userName = useSelector(name);
+  const userEmail = useSelector(email);
+
+
+  console.log('postsList', postsList)
+
+  const { posts } = postsList;
+  
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -46,6 +33,10 @@ speed: -1},
       });
     }
   }, [isLoggedIn]);
+
+  useEffect(() => {
+    dispatch(getAllPosts()).unwrap();
+  }, [dispatch])
 
   return (
     <SafeAreaView style={styles.container}>
@@ -60,8 +51,20 @@ speed: -1},
         </View>
       </View>
       <View style={styles.main}>
-        <User />
-        <PostsList array = {array} />
+
+        <View style={styles.userContainer}>
+          <View style={styles.userPhoto}></View>
+          <View style={styles.userInfo}>
+              <View>
+              <Text style={styles.name}>{userName}</Text>
+              </View>
+              <View>
+              <Text style={styles.email}>{userEmail }</Text>
+              </View>
+          </View>
+    </View>
+
+        <PostsList array = {posts} />
       </View>
     </SafeAreaView>
   )
@@ -99,6 +102,32 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     backgroundColor: "#FFF",
   },
+   userPhoto: {
+        width: 60,
+        height: 60,
+        marginRight: 8,
+        backgroundColor: "#F6F6F6",
+        borderRadius: 16,
+    },
+    userInfo: {
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+    },
+    name: {
+        fontFamily: "Bold",
+        fontSize: 13,
+        lineHeight: 15,
+    },
+    email: {
+        fontSize: 11,
+        lineHeight: 13,
+  },
+    userContainer: {
+    display: "flex",
+    flexDirection: "row",
+    paddingVertical: 32,
+    },
 });
 
 export default PostsScreen;

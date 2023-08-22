@@ -2,10 +2,12 @@ import { useNavigation } from '@react-navigation/native'
 import React, { useState,  useEffect, useRef  } from 'react'
 import { StyleSheet, Text, Keyboard, Dimensions, TouchableWithoutFeedback, View, TouchableOpacity, TextInput, Image } from 'react-native'
 import Ionicons from "react-native-vector-icons/Ionicons";
-import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
+import { useDispatch, useSelector } from 'react-redux';
+import { id } from '../redux/auth/authSelectors';
+import { addPost } from '../redux/posts/postsOperations';
 
 
 const CreatePostsScreen = () => {
@@ -17,6 +19,9 @@ const CreatePostsScreen = () => {
   const [hasPermission, setHasPermission] = useState(null);
   const [cameraRef, setCameraRef] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
+  const dispatch = useDispatch();
+
+  const userId = useSelector(id);
 
   useEffect(() => {
     (async () => {
@@ -51,8 +56,21 @@ const CreatePostsScreen = () => {
         longitude: location.coords.latitude,
       };
     setLocation(coords);
+
+    const newPost = {
+      id: userId,
+      title,
+      locationDescription,
+      photo: photoUri,
+      location,
+    };
+
+    await dispatch(addPost(newPost)).unwrap()
     
-   navigation.navigate("PostsScreen")
+    navigation.navigate("PostsScreen")
+
+    deletePost();
+    
   }
 
   const deletePost = () => {
